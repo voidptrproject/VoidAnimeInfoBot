@@ -1,4 +1,5 @@
-﻿using DSharpPlus;
+﻿using System.Runtime.InteropServices;
+using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using VoidAnimeInfoBot;
 
@@ -10,9 +11,13 @@ public class Program
     {
         await Users.Initialize();
 
+        var token = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) 
+            ? Environment.GetEnvironmentVariable("VOIDANIMEINFOTOKEN", EnvironmentVariableTarget.User) 
+            : Environment.GetEnvironmentVariable("VOIDANIMEINFOTOKEN");
+
         var discord = new DiscordClient(new DiscordConfiguration()
         {
-            Token = Environment.GetEnvironmentVariable("VOIDANIMEINFOTOKEN", EnvironmentVariableTarget.User),
+            Token = token,
             TokenType = TokenType.Bot
         });
 
